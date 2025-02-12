@@ -3,14 +3,15 @@ create database eduPortal;
 use eduPortal;
 
 CREATE TABLE User (
-    UserID INT AUTO_INCREMENT PRIMARY KEY,  -- Firebase UID or UUID
+    UserID INT AUTO_INCREMENT PRIMARY KEY,  
     Name VARCHAR(100) NOT NULL,
     Email VARCHAR(255) UNIQUE NOT NULL,
-    PhoneNumber VARCHAR(15),
-    Address TEXT,
+    Password VARCHAR(255) NOT NULL,  -- Storing password as a hashed value
+    Role ENUM('learner', 'instructor', 'admin') NOT NULL,  -- Role field with enum values
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE Course (
     CourseID INT AUTO_INCREMENT PRIMARY KEY,
