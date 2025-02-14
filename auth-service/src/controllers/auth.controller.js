@@ -15,9 +15,15 @@ const RegisterUser = async (req, res) => {
         });
         res.status(201).json({ message: "User registered successfully.", user });
     } catch (err) {
-        res.status(500).json({ message: "Something went wrong" });
+        console.error(err);
+        if (err.name === 'SequelizeDatabaseError' || err.name === 'SequelizeValidationError') {
+            res.status(500).json({ message: "Database error occurred. Please try again later." });
+        } else {
+            res.status(500).json({ message: "Something went wrong" });
+        }
     }
 };
+
 
 const LoginUser = async (req, res) => {
     try {
