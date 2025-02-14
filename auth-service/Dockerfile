@@ -1,25 +1,21 @@
-FROM ubuntu:latest
-LABEL authors="panchali"
+# Use the node image to avoid re-installing Node.js and npm
+FROM node:22.13.1 AS build
 
-ENTRYPOINT ["top", "-b"]
-
-#Base image
-FROM node:22.13.1
-
-#Set the working directory in the container
 WORKDIR /usr/src/auth-service
 
-#Copy package.json and package-lock.json
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-#Install dependencies
+# Install dependencies
 RUN npm install
 
-#Copy the entire application code
+# Copy the entire application code
 COPY . .
 
-#Expose the port your app runs on
+RUN npm rebuild bcrypt --build-from-source
+
+# Expose the port your app runs on
 EXPOSE 3001
 
-#Command to run the application
+# Command to run the application
 CMD ["npm", "start"]
